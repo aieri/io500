@@ -5,9 +5,6 @@
 #
 # The only parts of the script that may need to be modified are:
 #  - setup() to configure the binary locations and MPI parameters
-# Please visit https://vi4io.org/io500-info-creator/ to help generate the
-# "system-information.txt" file, by pasting the output of the info-creator.
-# This file contains details of your system hardware for your submission.
 
 # This script takes its parameters from the same .ini file as io500 binary.
 io500_ini="$1"          # You can set the ini file here
@@ -108,14 +105,6 @@ function main {
 
   setup $io500_workdir $io500_resultdir
   run_benchmarks
-
-  if [[ ! -s "system-information.txt" ]]; then
-    echo "Warning: please create a 'system-information.txt' description by"
-    echo "copying the information from https://vi4io.org/io500-info-creator/"
-  else
-    cp "system-information.txt" $io500_resultdir
-  fi
-
   create_tarball
 }
 
