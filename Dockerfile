@@ -4,7 +4,7 @@ COPY . io500/
 
 RUN <<EOF
 apt update
-apt install -y libopenmpi-dev pkg-config make
+apt install -y libopenmpi-dev pkg-config make git
 
 # Do the io500 installation
 cd io500 && ./prepare.sh
