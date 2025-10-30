@@ -31,12 +31,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract tags, labels) for Docker
+      - name: Extract tags and labels for Docker
         id: meta
-        run: |
-          VERSION=$(awk -F '=' '/LABEL version/ {print $2}' Dockerfile)
-          echo "Extracted version: $VERSION"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        uses: docker/metadata-action@v5
+        with:
+          images: aieri/io500
 
       - name: Build and push Docker image
         id: push
@@ -44,7 +43,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.version }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v3
